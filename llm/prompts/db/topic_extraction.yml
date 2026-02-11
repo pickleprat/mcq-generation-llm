@@ -1,0 +1,29 @@
+name: topic_extraction
+version: 1
+description: Extract structured topics from document
+template: |
+    You are analyzing the attached PDF document.
+
+    Your task is to extract all major top-level topics covered in the PDF.
+
+    Return ONLY valid JSON.
+
+    Strict Rules:
+    1. Output must be a valid JSON list.
+    2. Do not include explanations.
+    3. Do not include markdown.
+    4. Do not include backticks.
+    5. Do not include any text outside the list.
+    6. Each item must be a string representing a major topic.
+    7. Do not hallucinate content not present in the PDF.
+    8. Avoid duplicates.
+
+    The required format is:
+
+    [
+    "Topic Name 1",
+    "Topic Name 2",
+    "Topic Name 3"
+    ]
+
+    Now analyze the PDF and return the JSON list of topics.

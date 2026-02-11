@@ -1,6 +1,8 @@
-from llm.interface.aiclient import AIClient 
-from typing import Any
+from llm.interface.aiclient import AIClient
+from typing import Any, Iterable
 from google import genai
+from google.genai import types
+
 
 class GeminiClient(AIClient):
     supports_batch = True
@@ -10,7 +12,7 @@ class GeminiClient(AIClient):
     def __init__(
         self,
         api_key: str | None = None,
-        model: str = "gemini-3-flash-preview",
+        model: str = "gemini-2.5-flash-lite",
         **generation_params: Any,
     ):
         super().__init__(api_key)
@@ -46,7 +48,7 @@ class GeminiClient(AIClient):
 
         return outputs
 
-    def stream(self, prompt: str, **kwargs: Any):
+    def stream(self, prompt: str, **kwargs: Any) -> Iterable[str]:
         params = {**self.generation_params, **kwargs}
 
         stream = self.client.models.generate_content_stream(
@@ -67,11 +69,49 @@ class GeminiClient(AIClient):
     ) -> str:
         params = {**self.generation_params, **kwargs}
 
-        contents = [prompt, *pdfs]
+        parts = [types.Part.from_text(text=prompt)]
+
+        for pdf in pdfs:
+            parts.append(
+                types.Part.from_bytes(
+                    data=pdf,
+                    mime_type="application/pdf",
+                )
+            )
 
         response = self.client.models.generate_content(
             model=self.model,
-            contents=contents,
+            contents=parts,
             **params,
         )
+
         return response.text
+
+    def stream_with_pdfs(
+        self,
+        prompt: str,
+        pdfs: list[bytes],
+        **kwargs: Any,
+    ):
+
+        params = {**self.generation_params, **kwargs}
+
+        parts = [types.Part.from_text(text=prompt)]
+
+        for pdf in pdfs:
+            parts.append(
+                types.Part.from_bytes(
+                    data=pdf,
+                    mime_type="application/pdf",
+                )
+            )
+
+        stream = self.client.models.generate_content_stream(
+            model=self.model,
+            contents=parts,
+            **params,
+        )
+
+        for chunk in stream:
+            if chunk.text:
+                yield chunk.text

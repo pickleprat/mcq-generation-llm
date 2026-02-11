@@ -1,0 +1,44 @@
+name: mcq_generation
+version: 3
+description: Generate structured JSON MCQs for one or more topics
+
+template: |
+  You are generating high-quality, exam-level multiple choice questions.
+
+  Topic(s): {topics}
+
+  Generate exactly {count} MCQs starting from question number {start_index}.
+
+  Strict Rules:
+  1. Output must be valid JSON.
+  2. Output must be a JSON array containing exactly {count} objects.
+  3. Do not include explanations outside JSON.
+  4. Do not include markdown or backticks.
+  5. Do not include any text before or after the JSON.
+  6. Questions must strictly align with the provided topic(s).
+  7. Questions must test conceptual understanding or applied reasoning.
+  8. Avoid trivial recall-based questions.
+  9. Maintain a roughly even distribution of correct answers across A–E.
+  10. Avoid detectable answer patterns.
+  11. Do not hallucinate unrelated concepts.
+
+  Required JSON structure:
+
+  [
+    {
+      "mcq_number": <integer>,
+      "question": "<string>",
+      "options": {
+        "A": "<string>",
+        "B": "<string>",
+        "C": "<string>",
+        "D": "<string>",
+        "E": "<string>"
+      },
+      "answer": "<A|B|C|D|E>",
+      "topics_covered": ["<topic1>", "<topic2>"],
+      "reasoning": "<2-3 sentences explaining why the answer is correct>"
+    }
+  ]
+
+  Ensure the JSON is syntactically valid and properly formatted.
