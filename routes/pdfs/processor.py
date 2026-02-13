@@ -12,6 +12,8 @@ router = APIRouter(prefix="/pdfs")
 @router.post("/upload") 
 async def upload_pdfs(files: list[UploadFile] = File(...)):
     jobs : list = []
+    print("Received files:", [file.content_type for file in files])
+
     for file in files: 
         if file.content_type != "application/pdf":
             continue 
@@ -29,7 +31,7 @@ async def upload_pdfs(files: list[UploadFile] = File(...)):
                 detail=f"Error uploading {file.filename}: {str(err)}"
             )
         
-        return {"job_ids": jobs, "length": len(jobs)}
+    return {"job_ids": jobs, "length": len(jobs)}
 
 
         

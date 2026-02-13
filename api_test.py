@@ -29,6 +29,8 @@ def collect_pdfs(folder: str):
 def main():
     files = collect_pdfs(CONTENT_DIR)
 
+    print("Length of files list:", len(files))
+
     if not files:
         print("No PDFs found in content/")
         return

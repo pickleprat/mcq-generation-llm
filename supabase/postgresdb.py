@@ -5,12 +5,12 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-DATABASE_URL = os.getenv("SUPABASE_CONNECTION_STRING")
-
+CONNECTION_STRING = os.getenv("SUPABASE_CONNECTION_STRING")
 
 @contextmanager
 def get_connection():
-    conn = psycopg.connect(DATABASE_URL)
+    conn = psycopg.connect(CONNECTION_STRING)
+
     try:
         yield conn
     finally:
