@@ -1,6 +1,9 @@
 import os
 import psycopg
 from contextlib import contextmanager
+from dotenv import load_dotenv
+
+load_dotenv()
 
 DATABASE_URL = os.getenv("SUPABASE_CONNECTION_STRING")
 

@@ -1,5 +1,8 @@
 import os
 import boto3
+from dotenv import load_dotenv
+
+load_dotenv()
 
 BUCKET_ENDPOINT = os.getenv("SUPABASE_BUCKET_ENDPOINT")
 ACCESS_KEY = os.getenv("SUPABASE_BUCKET_ACCESS_KEY_ID")
