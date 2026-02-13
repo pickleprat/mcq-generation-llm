@@ -8,10 +8,10 @@ import json
 import random
 import re
 
+REDIS_URL = os.getenv("REDIS_URL")
+REDIS_PASSWORD = os.getenv("REDIS_PASSWORD")
 
-# -----------------------------
-# Utility Functions
-# -----------------------------
+broker: str = REDIS_URL.format(password=REDIS_PASSWORD)
 
 def extract_json_array(raw: str) -> str:
     """
@@ -74,7 +74,6 @@ client = LLMClient(
 # -----------------------------
 # Step 1: Extract Topics
 # -----------------------------
-
 print("\n--- Extracting Topics ---\n")
 
 topic_output = ""

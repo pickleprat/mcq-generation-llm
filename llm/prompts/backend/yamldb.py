@@ -3,7 +3,6 @@ from llm.prompts.backend.interface import PromptBackend
 import yaml 
 import os 
 
-
 class YamlPromptBackend(PromptBackend):
     def __init__(self, prompt_dir: str = os.path.join(os.getcwd(), "llm", "prompts", "db")):
         self.prompt_dir = Path(prompt_dir)

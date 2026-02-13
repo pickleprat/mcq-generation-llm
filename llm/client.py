@@ -19,7 +19,6 @@ class LLMClient:
         else:
             raise ValueError(f"Unsupported client: {client}")
 
-    # -------- Capability passthroughs -------- #
 
     @property
     def supports_batch(self) -> bool:

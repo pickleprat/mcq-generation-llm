@@ -21,6 +21,7 @@ template: |
   9. Maintain a roughly even distribution of correct answers across A–E.
   10. Avoid detectable answer patterns.
   11. Do not hallucinate unrelated concepts.
+  12. Ensure that you have generated {count} unique questions.
 
   Required JSON structure:
 
