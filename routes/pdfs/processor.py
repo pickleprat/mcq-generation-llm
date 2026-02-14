@@ -23,7 +23,7 @@ async def upload_pdfs(files: list[UploadFile] = File(...)):
             storage_key: str = sb_bucket.upload_pdf(pdf_id, pdf_bytes)
 
             job_id: str = sb_db.insert_job(
-                pdf_id=pdf_id,
+                job_id=pdf_id,
                 filename=file.filename,
                 storage_path=storage_key,
             )
@@ -111,6 +111,21 @@ def list_jobs(user_id: str | None = None):
         jobs = sb_db.get_all_jobs()
 
     return {"jobs": jobs}
+
+@router.get("/{job_id}/mcqs")
+def get_all_mcqs(job_id: str):
+    job = sb_db.get_job(job_id)
+
+    if not job:
+        raise HTTPException(status_code=404, detail="Job not found")
+
+    mcqs = sb_db.get_all_mcqs_by_pdf(job_id)
+
+    return {
+        "job_id": job_id,
+        "status": job["status"],
+        "mcqs": mcqs,
+    }
         
         
 

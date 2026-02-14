@@ -268,3 +268,41 @@ def reset_job(job_id: str) -> None:
         with conn.cursor() as cur:
             cur.execute(query, (job_id,))
         conn.commit()
+
+def get_all_mcqs_by_pdf(pdf_id: str) -> list[dict]:
+    query = """
+        SELECT
+            t.id AS topic_id,
+            t.topic_name,
+            t.status AS topic_status,
+            m.id AS mcq_id,
+            m.mcq_data
+        FROM public.pdftopics t
+        LEFT JOIN public.mcqs m
+            ON t.id = m.topic_id
+        WHERE t.pdf_id = %s
+        ORDER BY t.created_at;
+    """
+
+    with get_connection() as conn:
+        with conn.cursor(row_factory=dict_row) as cur:
+            cur.execute(query, (pdf_id,))
+            rows = cur.fetchall()
+
+    # Group by topic
+    result = {}
+    for row in rows:
+        topic_id = row["topic_id"]
+
+        if topic_id not in result:
+            result[topic_id] = {
+                "topic_id": topic_id,
+                "topic_name": row["topic_name"],
+                "status": row["topic_status"],
+                "mcq_data": [],
+            }
+
+        if row["mcq_data"]:
+            result[topic_id]["mcq_data"] = row["mcq_data"]
+
+    return list(result.values())
