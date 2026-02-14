@@ -8,7 +8,7 @@ CONTENT_DIR = "content"
 def collect_pdfs(folder: str):
     files = []
 
-    for filename in os.listdir(folder):
+    for filename in os.listdir(folder)[:3]:
         if filename.lower().endswith(".pdf"):
             path = os.path.join(folder, filename)
 

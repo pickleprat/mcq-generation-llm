@@ -1,6 +1,9 @@
 from celery import Celery 
+from dotenv import load_dotenv
 import ssl
 import os 
+
+load_dotenv()
 
 redis_url = os.getenv("REDIS_URL")
 

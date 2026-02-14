@@ -32,8 +32,6 @@ class LLMClient:
     def supports_pdfs(self) -> bool:
         return self._client.supports_pdfs
 
-    # -------- Core API -------- #
-
     def generate(self, prompt: str, **kwargs: Any) -> str:
         return self._client.generate(prompt, **kwargs)
 
@@ -42,8 +40,6 @@ class LLMClient:
 
     def stream(self, prompt: str, **kwargs: Any) -> Iterable[str]:
         return self._client.stream(prompt, **kwargs)
-
-    # -------- PDF API -------- #
 
     def generate_with_pdfs(
         self,
