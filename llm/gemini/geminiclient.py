@@ -22,17 +22,26 @@ class GeminiClient(AIClient):
         self.generation_params = generation_params
 
     def set_params(self, **params: Any) -> None:
-        self.generation_params.update(params)
 
+        self.generation_params.update(params)
+    
     def generate(self, prompt: str, **kwargs: Any) -> str:
-        params = {**self.generation_params, **kwargs}
+        temperature = kwargs.pop("temperature", self.generation_params.get("temperature", 0.7))
+
+        generation_config = {
+            "temperature": temperature,
+            **self.generation_params,
+        }
 
         response = self.client.models.generate_content(
             model=self.model,
             contents=prompt,
-            **params,
+            generation_config=generation_config,
+            **kwargs,
         )
+
         return response.text
+
 
     def generate_batch(self, prompts: list[str], **kwargs: Any) -> list[str]:
         params = {**self.generation_params, **kwargs}

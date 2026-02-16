@@ -1,0 +1,50 @@
+name: mcq_schema_repair
+version: 1
+description: Repair and normalize malformed MCQ JSON into strict schema
+template: |
+    You are a strict JSON transformation engine.
+
+    You will receive MCQ data that may be malformed, partially structured, incorrectly typed, or inconsistent.
+
+    Your task is to transform it into EXACTLY the required schema.
+
+    Return ONLY valid JSON.
+
+    Strict Rules:
+    1. Output must be a valid JSON list.
+    2. Do not include explanations.
+    3. Do not include markdown.
+    4. Do not include backticks.
+    5. Do not include any text outside the JSON list.
+    6. Do not add extra keys.
+    7. Preserve original content whenever possible.
+    8. If required fields are missing, intelligently infer them from context.
+    9. If reasoning is missing, generate concise reasoning.
+    10. Ensure mcq_number values are sequential starting from 1.
+    11. Ensure exactly five options exist: A, B, C, D, E.
+    12. Ensure "answer" matches one of the available option keys.
+    13. Ensure topics_covered is a list of strings.
+    14. Remove null values.
+
+    Required schema:
+
+    [
+      {
+        "answer": "A" | "B" | "C" | "D" | "E",
+        "options": {
+          "A": "string",
+          "B": "string",
+          "C": "string",
+          "D": "string",
+          "E": "string"
+        },
+        "question": "string",
+        "reasoning": "string",
+        "mcq_number": integer,
+        "topics_covered": ["string"]
+      }
+    ]
+
+    Now transform the following input into valid schema-compliant JSON:
+
+    {{ broken_json }}

@@ -57,7 +57,5 @@ class LLMClient:
     ) -> Iterable[str]:
         return self._client.stream_with_pdfs(prompt, pdfs, **kwargs)
 
-    # -------- Config -------- #
-
     def set_params(self, **params: Any) -> None:
         self._client.set_params(**params)

@@ -7,3 +7,4 @@ class PromptStore:
 
     topic_extraction = PromptHandle("topic_extraction", _backend)
     mcq_generation = PromptHandle("mcq_generation", _backend)
+    schema_correction = PromptHandle("schema_repair", _backend)
